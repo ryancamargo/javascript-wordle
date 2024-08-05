@@ -1,18 +1,22 @@
 const letters = document.querySelectorAll(".scoreboard-letter");
 const loadingDiv = document.querySelector(".info-bar");
 const ANSWER_LENGHT = 5;
+const ROUNDS = 6;
 
 async function init() {
 
     let currentGuess = '';
     let currentRow = 0;
+    let isLoading = true;
 
     // get the word from the server
     const res = await fetch("https://words.dev-apis.com/word-of-the-day?random=1");
     const resObj = await res.json();
     const word = resObj.word.toUpperCase();
     const wordParts = word.split(""); // array of the correct answer
+    let done = false;
     setLoading(false);
+    isLoading = false;
 
     console.log(word);
 
@@ -39,7 +43,7 @@ async function init() {
 
         // TODO validate the word
 
-        // TODO do all the marking as "correct" "close" or "wrong"
+        // do all the marking as "correct" "close" or "wrong"
 
         const guessParts = currentGuess.split(""); // array of the current guess
         const map = makeMap(guessParts);
@@ -66,10 +70,18 @@ async function init() {
                 letters[currentRow * ANSWER_LENGHT + i].classList.add("wrong");
             }
         }
-
-        // TODO did they win or lose?
-
         currentRow++;
+        
+        if (currentGuess === word) {
+            // win
+            alert('You win! 😁');
+            done = true;
+            return;
+        } else if (currentRow === ROUNDS) {
+            // lose
+            alert(`You lose, the word was ${word} 🥵`);
+            done = true;
+        }
         currentGuess = '';
     }
 
@@ -79,6 +91,12 @@ async function init() {
     }
 
     document.addEventListener('keydown', function handleKeyPress (event) {
+
+        if (done || isLoading) {
+            // do nothing
+            return;
+        }
+
         const action = event.key;
 
         //console.log(action);
