@@ -18,7 +18,7 @@ async function init() {
     setLoading(false);
     isLoading = false;
 
-    console.log(word);
+    //console.log(word);
 
 
     function addLetter(letter) {
