@@ -11,6 +11,7 @@ async function init() {
     const res = await fetch("https://words.dev-apis.com/word-of-the-day?random=1");
     const resObj = await res.json();
     const word = resObj.word.toUpperCase();
+    const wordParts = word.split(""); // array of the correct answer
     setLoading(false);
 
     console.log(word);
@@ -39,6 +40,25 @@ async function init() {
         // TODO validate the word
 
         // TODO do all the marking as "correct" "close" or "wrong"
+
+        const guessParts = currentGuess.split(""); // array of the current guess
+
+        for (let i = 0; i < ANSWER_LENGHT; i++) {
+            // mark as correct
+            if (guessParts[i] === wordParts[i]) {
+                letters[currentRow * ANSWER_LENGHT + i].classList.add("correct");
+            }
+        }
+
+        for (let i = 0; i < ANSWER_LENGHT; i++) {
+            if (guessParts[i] === wordParts[i]) {
+                // do nothing, we already marked it as correct
+            } else if (wordParts.includes(guessParts[i]) /* TODO make this more accurate */) {
+                letters[currentRow * ANSWER_LENGHT + i].classList.add("close");
+            } else {
+                letters[currentRow * ANSWER_LENGHT + i].classList.add("wrong");
+            }
+        }
 
         // TODO did they win or lose?
 
