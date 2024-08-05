@@ -21,8 +21,6 @@ async function init() {
     console.log(word);
 
 
-
-
     function addLetter(letter) {
         if (currentGuess.length < ANSWER_LENGHT) {
             // add letter to the end
@@ -93,6 +91,7 @@ async function init() {
             // win
             setTimeout(() => {
                 alert('You win! 😁');
+                document.querySelector(".brand").classList.add("winner");
                 done = true;
                 return;
             }, 300);
@@ -110,8 +109,6 @@ async function init() {
     }
 
     function markInvalidWord() {
-        //alert('Invalid word, try again');
-
         for (let i = 0; i < ANSWER_LENGHT; i++) {
             letters[currentRow * ANSWER_LENGHT + i].classList.remove("invalid");
             setTimeout(function () {
@@ -128,8 +125,6 @@ async function init() {
         }
 
         const action = event.key;
-
-        //console.log(action);
 
         if (action === 'Enter') {
             commit();
