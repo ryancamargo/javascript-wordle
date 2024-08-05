@@ -7,6 +7,16 @@ async function init() {
     let currentGuess = '';
     let currentRow = 0;
 
+    // get the word from the server
+    const res = await fetch("https://words.dev-apis.com/word-of-the-day?random=1");
+    const resObj = await res.json();
+    const word = resObj.word.toUpperCase();
+
+    console.log(word);
+
+
+
+
     function addLetter(letter) {
         if (currentGuess.length < ANSWER_LENGHT) {
             // add letter to the end
@@ -43,7 +53,7 @@ async function init() {
     document.addEventListener('keydown', function handleKeyPress (event) {
         const action = event.key;
 
-        console.log(action);
+        //console.log(action);
 
         if (action === 'Enter') {
             commit();
