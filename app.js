@@ -11,6 +11,7 @@ async function init() {
     const res = await fetch("https://words.dev-apis.com/word-of-the-day?random=1");
     const resObj = await res.json();
     const word = resObj.word.toUpperCase();
+    setLoading(false);
 
     console.log(word);
 
@@ -70,6 +71,11 @@ async function init() {
 
 function isLetter(letter) {
     return /^[a-zA-Z]$/.test(letter);
+}
+
+function setLoading(isLoading) {
+    // if it is loading, show the loading div, otherwise hide it
+    loadingDiv.classList.toggle("hidden", !isLoading);
 }
 
 init();
