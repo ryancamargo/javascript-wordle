@@ -5,15 +5,39 @@ const ANSWER_LENGHT = 5;
 async function init() {
 
     let currentGuess = '';
+    let currentRow = 0;
 
     function addLetter(letter) {
         if (currentGuess.length < ANSWER_LENGHT) {
+            // add letter to the end
             currentGuess += letter;
         } else {
-            currentGuess = currentGuess.substring(0, currentGuess.length - 1) + letter; // lop off the last letter, replace with new letter
+            // lop off the last letter, replace the last letter
+            currentGuess = currentGuess.substring(0, currentGuess.length - 1) + letter;
         }
 
-        letters[currentGuess.length - 1].innerText = letter;
+        letters[ANSWER_LENGHT * currentRow + currentGuess.length - 1].innerText = letter;
+    }
+
+    async function commit() {
+        if (currentGuess.length !== ANSWER_LENGHT) {
+            // do nothing
+            return;
+        }
+
+        // TODO validate the word
+
+        // TODO do all the marking as "correct" "close" or "wrong"
+
+        // TODO did they win or lose?
+
+        currentRow++;
+        currentGuess = '';
+    }
+
+    function backspace() {
+        currentGuess = currentGuess.substring(0, currentGuess.length - 1);
+        letters[ANSWER_LENGHT * currentRow + currentGuess.length].innerText = "";
     }
 
     document.addEventListener('keydown', function handleKeyPress (event) {
